@@ -1,7 +1,7 @@
 import  { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2'; // Import SweetAlert2 for better alerts
-import Ufo from "../../assets/ufo.png";
+import Ufo from "../assets/ufo.png";
 
 function BetComponent() {
   const [multiplier, setMultiplier] = useState(1.0);
