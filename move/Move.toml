@@ -7,7 +7,7 @@ authors = []
 crash="_"
 
 [dev-addresses]
-crash="_"
+crash="0x2dc08391f7cc82cafa028d49854640676afc0e520d62f954bcc349c5d834f590"
 
 
 [dependencies.AptosFramework]
