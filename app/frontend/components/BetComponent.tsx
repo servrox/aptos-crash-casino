@@ -3,17 +3,31 @@ import { motion } from 'framer-motion';
 import Swal from 'sweetalert2'; // Import SweetAlert2 for better alerts
 import Ufo from "../assets/ufo.png";
 
-function BetComponent() {
-  const [multiplier, setMultiplier] = useState(1.0);
-  const [multiplierHistory, setMultiplierHistory] = useState([]); // Track multiplier history
-  const [betAmount, setBetAmount] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isCrashed, setIsCrashed] = useState(false);
-  const [activeBet, setActiveBet] = useState(false);
-  const [balance, setBalance] = useState(100);
-  const [countdown, setCountdown] = useState(10);
-const [isLoading, setIsLoading] = useState(false);
-const [countdownCompleted, setCountdownCompleted] = useState(false);
+
+
+export function BetComponent() {
+//   const [multiplier, setMultiplier] = useState(1.0);
+//   const [multiplierHistory, setMultiplierHistory] = useState([]); // Track multiplier history
+//   const [betAmount, setBetAmount] = useState(0);
+//   const [isPlaying, setIsPlaying] = useState(false);
+//   const [isCrashed, setIsCrashed] = useState(false);
+//   const [activeBet, setActiveBet] = useState(false);
+//   const [balance, setBalance] = useState(100);
+//   const [countdown, setCountdown] = useState(10);
+// const [isLoading, setIsLoading] = useState(false);
+// const [countdownCompleted, setCountdownCompleted] = useState(false);
+const [multiplier, setMultiplier] = useState<number>(1.0);
+const [multiplierHistory, setMultiplierHistory] = useState<number[]>([]); // Track multiplier history
+const [betAmount, setBetAmount] = useState<number>(0);
+const [isPlaying, setIsPlaying] = useState<boolean>(false);
+const [isCrashed, setIsCrashed] = useState<boolean>(false);
+const [activeBet, setActiveBet] = useState<boolean>(false);
+const [balance, setBalance] = useState<number>(100);
+const [countdown, setCountdown] = useState<number>(10);
+const [isLoading, setIsLoading] = useState<boolean>(false);
+const [countdownCompleted, setCountdownCompleted] = useState<boolean>(false);
+
+
 
 useEffect(() => {
     if (isPlaying && !isCrashed) {
@@ -26,7 +40,7 @@ useEffect(() => {
           setIsCrashed(true);
           setIsPlaying(false);
   
-          setMultiplierHistory((prevHistory) => [...prevHistory, crashAt.toFixed(2) + 'x']);
+          setMultiplierHistory((prevHistory) => [...prevHistory, parseFloat(crashAt.toFixed(2))]);
   
           if (activeBet) {
             Swal.fire({
@@ -97,7 +111,7 @@ useEffect(() => {
     }
   };
 
-  const handleBetAmountChange = (e) => {
+  const handleBetAmountChange = (e:any) => {
     setBetAmount(parseFloat(e.target.value) || 0);
   };
 
@@ -179,7 +193,7 @@ const ufoAnimation = {
 
       <div className="mt-2 text-lg">Potential Win: $ {potentialWin.toFixed(2)}</div> {/* Display potential win amount */}
       <div className="flex justify-center mt-8 space-x-2">
-        {multiplierHistory.map((value, index) => (
+        {multiplierHistory.map((value:any, index:any) => (
             <div key={index} className="bg-gray-200 px-2 py-1 rounded">{value}</div>
         ))}
        </div>
@@ -188,4 +202,3 @@ const ufoAnimation = {
   );
 }
 
-export default BetComponent;
