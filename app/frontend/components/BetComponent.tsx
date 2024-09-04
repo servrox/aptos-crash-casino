@@ -31,7 +31,7 @@ const [countdownCompleted, setCountdownCompleted] = useState<boolean>(false);
 
 useEffect(() => {
     if (isPlaying && !isCrashed) {
-      const crashAt = Math.random() * 9 + 1; // Random crash between 1 and 10
+      const crashAt = Math.random() * 10 + 100; // Random crash between 1 and 10
       let interval = setInterval(() => {
         setMultiplier((prevMultiplier) => prevMultiplier + 0.05);
   
@@ -65,9 +65,9 @@ useEffect(() => {
             setIsPlaying(true);
             setIsCrashed(false); // Ensure crash state is reset
             setMultiplier(1.0); // Reset multiplier for new round
-            if (!activeBet) { // Reset bet amount only if no active bet
-              setBetAmount(0);
-            }
+            // if (!activeBet) { // Reset bet amount only if no active bet
+            //   setBetAmount(0);
+            // }
             return 10;
           }
           return prevCountdown - 1;
@@ -127,7 +127,7 @@ const ufoAnimation = {
   const potentialWin = activeBet ? betAmount * multiplier : 0;
 
   return (
-    <div className="container mx-auto text-center">
+    <div className="container mx-auto text-center border border-gray-400 rounded-md">
         {isLoading && (
             <div className="mt-8 text-xl">
                 <div>Next Round in: {countdown} seconds</div>
@@ -136,7 +136,8 @@ const ufoAnimation = {
             </div>
         )}
 
-      <div className="flex justify-center items-center mt-8">
+      <div className="flex flex-col justify-center items-center mt-8">
+      <div className="ml-4 text-5xl font-bold">{multiplier.toFixed(2)}x</div>
         <motion.img
           src={Ufo}
           alt="UFO"
@@ -146,7 +147,7 @@ const ufoAnimation = {
           animate="animate"
           exit="exit"
         />
-        <div className="ml-4 text-5xl font-bold">{multiplier.toFixed(2)}x</div>
+        
       </div>
 
       <div className="flex justify-center mt-8 space-x-4">
