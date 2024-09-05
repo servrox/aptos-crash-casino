@@ -89,6 +89,13 @@ module crash::game {
     }
 
     #[event]
+    struct UserBetEvent has store, drop {
+        round_id: u64,
+        user: address,
+        amount: u64
+    }
+
+    #[event]
     struct ClaimMultiplierEvent has store, drop {
         user: address,
         multiplier: u64
@@ -182,7 +189,7 @@ module crash::game {
     }
 
 
-    public entry fun bet_on_next_round(user: &signer, amount: u64) {
+    public entry fun bet_on_next_round(user: &signer, amount: u64) acquires RoundHolder {
         // TODO: check if round is properly setup
         let user_addr = signer::address_of(user);
         let user_balance = coin::balance<aptos_coin::AptosCoin>(user_addr);
@@ -191,6 +198,20 @@ module crash::game {
         aptos_account::transfer(user, @crash, amount);
 
         // TODO: register bet amount and the fact that user's playing
+        let round_holder = borrow_global_mut<RoundHolder>(@crash);
+
+        let round_state = table::borrow_mut(&mut round_holder.rounds, round_holder.current);
+        table::add(&mut round_state.userStates, user_addr, PlayerRoundState {
+            amount,
+            claimed_multiplier: option::none<u64>(),
+            claimed: false
+        });
+
+        event::emit(UserBetEvent {
+            user: user_addr,
+            amount: amount,
+            round_id: round_holder.current
+        });
     }
 
     public entry fun claim_multiplier(user: &signer, multiplier: u64) acquires RoundHolder {
