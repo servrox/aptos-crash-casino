@@ -18,49 +18,13 @@ const [isLoading, setIsLoading] = useState<boolean>(false);
 const [countdownCompleted, setCountdownCompleted] = useState<boolean>(false);
 
 
+function getMultiplierColor(multiplier : any) {
+  if (multiplier < 1.5) return 'text-[#e81010]'; // Red for low multiplier
+  if (multiplier >= 1.5 && multiplier < 2.9) return 'text-[#a2f3ac]'; // Yellow for medium multiplier
+  if (multiplier >= 2.9) return 'text-[#05a81b]'; // Green for high multiplier
+  return 'text-[#08dcd5]'; // Default to blue
+};
 
-  
-// useEffect(() => {
-//   let countdownInterval: NodeJS.Timeout;
-//   if (isCrashed || !isPlaying) {
-//       setIsLoading(true);
-//       countdownInterval = setInterval(() => {
-//           setCountdown((prevCountdown) => {
-//               if (prevCountdown <= 1) {
-//                   clearInterval(countdownInterval);
-//                   setCountdown(10);
-//                   setIsLoading(false);
-//                   setIsPlaying(true);
-//                   setIsCrashed(false); // Reset crash state
-//                   setMultiplier(1.0);  // Reset multiplier
-//                   return 10;
-//               }
-//               return prevCountdown - 1;
-//           });
-//       }, 1000);
-//   } else if (isPlaying && !isCrashed) {
-//       const crashAt = Math.random() * 9 + 1; // Random crash between 1 and 10
-//       const gameInterval = setInterval(() => {
-//           setMultiplier((prevMultiplier) => prevMultiplier + 0.05);
-//           if (multiplier >= crashAt) {
-//               clearInterval(gameInterval);
-//               setIsCrashed(true);
-//               setIsPlaying(false);
-//               setMultiplierHistory((prevHistory) => [...prevHistory, parseFloat(crashAt.toFixed(2))]);
-//               if (activeBet) {
-//                   Swal.fire({
-//                       icon: 'error',
-//                       title: 'Oops!',
-//                       text: `Crashed at ${crashAt.toFixed(2)}x! You lost your bet of ${betAmount}.`,
-//                   });
-//                   setActiveBet(false);
-//               }
-//           }
-//       }, 100);
-//       return () => clearInterval(gameInterval);
-//   }
-//   return () => clearInterval(countdownInterval);
-// }, [isPlaying, isCrashed, activeBet, betAmount, multiplier]);
 
 useEffect(() => {
   let countdownInterval: NodeJS.Timeout;
@@ -167,7 +131,10 @@ const ufoAnimation = {
         )}
 
       <div className="flex flex-col justify-center items-center mt-8">
-      <div className="ml-4 text-5xl font-bold">{multiplier.toFixed(2)}x</div>
+      <div className={`ml-4 text-5xl font-bold ${getMultiplierColor(multiplier)}`}>
+        {multiplier.toFixed(2)}x
+      </div>
+      {/* <div className="ml-4 text-5xl font-bold">{multiplier.toFixed(2)}x</div> */}
         <motion.img
           src={Ufo}
           alt="UFO"
@@ -213,18 +180,20 @@ const ufoAnimation = {
       <div className="mt-4 text-xl">Balance: $ {balance.toFixed(2)}</div>
 
       <div className="mt-2 text-lg">Potential Win: $ {potentialWin.toFixed(2)}</div> {/* Display potential win amount */}
-      {/* <div className="flex justify-center mt-8 space-x-2 max-w-full">
-        {multiplierHistory.map((value:any, index:any) => (
-            <div key={index} className="bg-gray-200 px-2 py-1 rounded">{value}</div>
-        ))}
-       </div> */}
-       <div className="flex justify-center mt-8 space-x-2 max-w-full overflow-x-auto flex-wrap">
+      <div className="flex justify-center mt-8 space-x-2 max-w-full overflow-x-auto flex-wrap">
+      {multiplierHistory.map((value: any, index: any) => (
+        <div key={index} className={`bg-[#fff] px-2 py-1 rounded ${getMultiplierColor(value)}`}>
+          {value}
+        </div>
+      ))}
+    </div>
+       {/* <div className="flex justify-center mt-8 space-x-2 max-w-full overflow-x-auto flex-wrap">
         {multiplierHistory.map((value: any, index: any) => (
           <div key={index} className="bg-gray-200 px-2 py-1 rounded">
             {value}
          </div>
   ))}
-</div>
+</div> */}
 
       
     </div>
