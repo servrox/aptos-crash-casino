@@ -29,56 +29,97 @@ const [countdownCompleted, setCountdownCompleted] = useState<boolean>(false);
 
 
 
+// useEffect(() => {
+//     if (isPlaying && !isCrashed) {
+//       const crashAt = Math.random() * 10 + 100; // Random crash between 1 and 10
+//       let interval = setInterval(() => {
+//         setMultiplier((prevMultiplier) => prevMultiplier + 0.05);
+  
+//         if (multiplier >= crashAt) {
+//           clearInterval(interval);
+//           setIsCrashed(true);
+//           setIsPlaying(false);
+  
+//           setMultiplierHistory((prevHistory) => [...prevHistory, parseFloat(crashAt.toFixed(2))]);
+  
+//           if (activeBet) {
+//             Swal.fire({
+//               icon: 'error',
+//               title: 'Oops!',
+//               text: `Crashed at ${crashAt.toFixed(2)}x! You lost your bet of ${betAmount}.`,
+//             });
+//             setActiveBet(false);
+//           }
+//         }
+//       }, 100);
+  
+//       return () => clearInterval(interval);
+//     } else if (!isPlaying && isCrashed) {
+//       setIsLoading(true);
+//       let countdownInterval = setInterval(() => {
+//         setCountdown((prevCountdown) => {
+//           if (prevCountdown <= 1) {
+//             clearInterval(countdownInterval);
+//             setCountdown(10);
+//             setIsLoading(false);
+//             setIsPlaying(true);
+//             setIsCrashed(false); // Ensure crash state is reset
+//             setMultiplier(1.0); // Reset multiplier for new round
+//             // if (!activeBet) { // Reset bet amount only if no active bet
+//             //   setBetAmount(0);
+//             // }
+//             return 10;
+//           }
+//           return prevCountdown - 1;
+//         });
+//       }, 1000);
+  
+//       return () => clearInterval(countdownInterval);
+//     }
+//   }, [isPlaying, isCrashed, activeBet, betAmount, multiplier]);
+  
 useEffect(() => {
-    if (isPlaying && !isCrashed) {
-      const crashAt = Math.random() * 10 + 100; // Random crash between 1 and 10
-      let interval = setInterval(() => {
-        setMultiplier((prevMultiplier) => prevMultiplier + 0.05);
-  
-        if (multiplier >= crashAt) {
-          clearInterval(interval);
-          setIsCrashed(true);
-          setIsPlaying(false);
-  
-          setMultiplierHistory((prevHistory) => [...prevHistory, parseFloat(crashAt.toFixed(2))]);
-  
-          if (activeBet) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops!',
-              text: `Crashed at ${crashAt.toFixed(2)}x! You lost your bet of ${betAmount}.`,
-            });
-            setActiveBet(false);
-          }
-        }
-      }, 100);
-  
-      return () => clearInterval(interval);
-    } else if (!isPlaying && isCrashed) {
+  let countdownInterval: NodeJS.Timeout;
+  if (isCrashed || !isPlaying) {
       setIsLoading(true);
-      let countdownInterval = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          if (prevCountdown <= 1) {
-            clearInterval(countdownInterval);
-            setCountdown(10);
-            setIsLoading(false);
-            setIsPlaying(true);
-            setIsCrashed(false); // Ensure crash state is reset
-            setMultiplier(1.0); // Reset multiplier for new round
-            // if (!activeBet) { // Reset bet amount only if no active bet
-            //   setBetAmount(0);
-            // }
-            return 10;
-          }
-          return prevCountdown - 1;
-        });
+      countdownInterval = setInterval(() => {
+          setCountdown((prevCountdown) => {
+              if (prevCountdown <= 1) {
+                  clearInterval(countdownInterval);
+                  setCountdown(10);
+                  setIsLoading(false);
+                  setIsPlaying(true);
+                  setIsCrashed(false); // Reset crash state
+                  setMultiplier(1.0);  // Reset multiplier
+                  return 10;
+              }
+              return prevCountdown - 1;
+          });
       }, 1000);
-  
-      return () => clearInterval(countdownInterval);
-    }
-  }, [isPlaying, isCrashed, activeBet, betAmount, multiplier]);
-  
-  
+  } else if (isPlaying && !isCrashed) {
+      const crashAt = Math.random() * 9 + 1; // Random crash between 1 and 10
+      const gameInterval = setInterval(() => {
+          setMultiplier((prevMultiplier) => prevMultiplier + 0.05);
+          if (multiplier >= crashAt) {
+              clearInterval(gameInterval);
+              setIsCrashed(true);
+              setIsPlaying(false);
+              setMultiplierHistory((prevHistory) => [...prevHistory, parseFloat(crashAt.toFixed(2))]);
+              if (activeBet) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops!',
+                      text: `Crashed at ${crashAt.toFixed(2)}x! You lost your bet of ${betAmount}.`,
+                  });
+                  setActiveBet(false);
+              }
+          }
+      }, 100);
+      return () => clearInterval(gameInterval);
+  }
+  return () => clearInterval(countdownInterval);
+}, [isPlaying, isCrashed, activeBet, betAmount, multiplier]);
+
 
   const handleBet = () => {
     if (betAmount > balance) {
@@ -96,20 +137,31 @@ useEffect(() => {
     }
   };
   
-  
-
   const handleCashOut = () => {
     if (activeBet && isPlaying && !isCrashed) {
-      const winnings = betAmount * multiplier;
-      setBalance(balance + winnings);
-      Swal.fire({
-        icon: 'success',
-        title: 'Cashed Out!',
-        text: `You cashed out at ${multiplier.toFixed(2)}x! You won ${winnings.toFixed(2)}.`,
-      });
-      setActiveBet(false);
+        const winnings = betAmount * multiplier;
+        setBalance((prevBalance) => prevBalance + winnings); // Ensure correct balance update
+        Swal.fire({
+            icon: 'success',
+            title: 'Cashed Out!',
+            text: `You cashed out at ${multiplier.toFixed(2)}x! You won ${winnings.toFixed(2)}.`,
+        });
+        setActiveBet(false);
     }
-  };
+};
+
+  // const handleCashOut = () => {
+  //   if (activeBet && isPlaying && !isCrashed) {
+  //     const winnings = betAmount * multiplier;
+  //     setBalance(balance + winnings);
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: 'Cashed Out!',
+  //       text: `You cashed out at ${multiplier.toFixed(2)}x! You won ${winnings.toFixed(2)}.`,
+  //     });
+  //     setActiveBet(false);
+  //   }
+  // };
 
   const handleBetAmountChange = (e:any) => {
     setBetAmount(parseFloat(e.target.value) || 0);
@@ -161,7 +213,7 @@ const ufoAnimation = {
         <button
           className="bg-red-500 text-white px-4 py-2 rounded cursor-pointer"
           onClick={handleCashOut}
-          disabled={activeBet || isCrashed || isPlaying} // Cash out only if bet is active
+          disabled={!activeBet || !isPlaying || isCrashed} // Cash out only if bet is active, playing, and not crashed
         >
           Cash Out
         </button>
