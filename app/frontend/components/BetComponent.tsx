@@ -6,16 +6,6 @@ import Ufo from "../assets/ufo.png";
 
 
 export function BetComponent() {
-//   const [multiplier, setMultiplier] = useState(1.0);
-//   const [multiplierHistory, setMultiplierHistory] = useState([]); // Track multiplier history
-//   const [betAmount, setBetAmount] = useState(0);
-//   const [isPlaying, setIsPlaying] = useState(false);
-//   const [isCrashed, setIsCrashed] = useState(false);
-//   const [activeBet, setActiveBet] = useState(false);
-//   const [balance, setBalance] = useState(100);
-//   const [countdown, setCountdown] = useState(10);
-// const [isLoading, setIsLoading] = useState(false);
-// const [countdownCompleted, setCountdownCompleted] = useState(false);
 const [multiplier, setMultiplier] = useState<number>(1.0);
 const [multiplierHistory, setMultiplierHistory] = useState<number[]>([]); // Track multiplier history
 const [betAmount, setBetAmount] = useState<number>(0);
@@ -29,54 +19,6 @@ const [countdownCompleted, setCountdownCompleted] = useState<boolean>(false);
 
 
 
-// useEffect(() => {
-//     if (isPlaying && !isCrashed) {
-//       const crashAt = Math.random() * 10 + 100; // Random crash between 1 and 10
-//       let interval = setInterval(() => {
-//         setMultiplier((prevMultiplier) => prevMultiplier + 0.05);
-  
-//         if (multiplier >= crashAt) {
-//           clearInterval(interval);
-//           setIsCrashed(true);
-//           setIsPlaying(false);
-  
-//           setMultiplierHistory((prevHistory) => [...prevHistory, parseFloat(crashAt.toFixed(2))]);
-  
-//           if (activeBet) {
-//             Swal.fire({
-//               icon: 'error',
-//               title: 'Oops!',
-//               text: `Crashed at ${crashAt.toFixed(2)}x! You lost your bet of ${betAmount}.`,
-//             });
-//             setActiveBet(false);
-//           }
-//         }
-//       }, 100);
-  
-//       return () => clearInterval(interval);
-//     } else if (!isPlaying && isCrashed) {
-//       setIsLoading(true);
-//       let countdownInterval = setInterval(() => {
-//         setCountdown((prevCountdown) => {
-//           if (prevCountdown <= 1) {
-//             clearInterval(countdownInterval);
-//             setCountdown(10);
-//             setIsLoading(false);
-//             setIsPlaying(true);
-//             setIsCrashed(false); // Ensure crash state is reset
-//             setMultiplier(1.0); // Reset multiplier for new round
-//             // if (!activeBet) { // Reset bet amount only if no active bet
-//             //   setBetAmount(0);
-//             // }
-//             return 10;
-//           }
-//           return prevCountdown - 1;
-//         });
-//       }, 1000);
-  
-//       return () => clearInterval(countdownInterval);
-//     }
-//   }, [isPlaying, isCrashed, activeBet, betAmount, multiplier]);
   
 useEffect(() => {
   let countdownInterval: NodeJS.Timeout;
@@ -150,18 +92,6 @@ useEffect(() => {
     }
 };
 
-  // const handleCashOut = () => {
-  //   if (activeBet && isPlaying && !isCrashed) {
-  //     const winnings = betAmount * multiplier;
-  //     setBalance(balance + winnings);
-  //     Swal.fire({
-  //       icon: 'success',
-  //       title: 'Cashed Out!',
-  //       text: `You cashed out at ${multiplier.toFixed(2)}x! You won ${winnings.toFixed(2)}.`,
-  //     });
-  //     setActiveBet(false);
-  //   }
-  // };
 
   const handleBetAmountChange = (e:any) => {
     setBetAmount(parseFloat(e.target.value) || 0);
