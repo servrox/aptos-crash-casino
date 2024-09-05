@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      framer-motion:
+        specifier: ^11.5.2
+        version: 11.5.2
+      sweetalert2:
+        specifier: ^11.13.2
+        version: 11.13.2
     devDependencies:
       '@nx/js':
         specifier: 19.6.4
@@ -1114,6 +1121,20 @@ packages:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
 
+  framer-motion@11.5.2:
+    resolution: {integrity: sha512-dZLb7F+orjs+y2ggdl3tL5wuIDsHV1p28gloOSrDWH+nwmt0RTC7myq9FdfWZcQZ47qzv4RrqHEtHoeaBK57dg==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   front-matter@4.0.2:
     resolution: {integrity: sha512-I8ZuJ/qG92NWX8i5x1Y8qyj3vizhXS31OxjKDu3LKP+7/qBgfIKValiZIEwoVoJKUHlhWtYrktkxV1XsX+pPlg==}
 
@@ -1507,6 +1528,9 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  sweetalert2@11.13.2:
+    resolution: {integrity: sha512-Q361QVJrDce3pA+46m2JmfDQyxxlmVE6t7ScoMwubm2PQKTlUqaMpzWq/DZRSPL8Sg2hUCzUAXQ9dwMPnbsy7Q==}
 
   tar-stream@2.2.0:
     resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
@@ -2969,6 +2993,10 @@ snapshots:
       combined-stream: 1.0.8
       mime-types: 2.1.35
 
+  framer-motion@11.5.2:
+    dependencies:
+      tslib: 2.7.0
+
   front-matter@4.0.2:
     dependencies:
       js-yaml: 3.14.1
@@ -3359,6 +3387,8 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  sweetalert2@11.13.2: {}
 
   tar-stream@2.2.0:
     dependencies:
