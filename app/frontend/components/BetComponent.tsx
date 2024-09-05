@@ -134,7 +134,7 @@ const ufoAnimation = {
       <div className={`ml-4 text-5xl font-bold ${getMultiplierColor(multiplier)}`}>
         {multiplier.toFixed(2)}x
       </div>
-      {/* <div className="ml-4 text-5xl font-bold">{multiplier.toFixed(2)}x</div> */}
+     
         <motion.img
           src={Ufo}
           alt="UFO"
@@ -187,13 +187,7 @@ const ufoAnimation = {
         </div>
       ))}
     </div>
-       {/* <div className="flex justify-center mt-8 space-x-2 max-w-full overflow-x-auto flex-wrap">
-        {multiplierHistory.map((value: any, index: any) => (
-          <div key={index} className="bg-gray-200 px-2 py-1 rounded">
-            {value}
-         </div>
-  ))}
-</div> */}
+      
 
       
     </div>
