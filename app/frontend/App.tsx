@@ -7,6 +7,7 @@ import { NetworkInfo } from "@/components/NetworkInfo";
 import { AccountInfo } from "@/components/AccountInfo";
 import { TransferAPT } from "@/components/TransferAPT";
 import { MessageBoard } from "@/components/MessageBoard";
+import {BetComponent} from "./components/BetComponent.jsx"; 
 
 function App() {
   const { connected } = useWallet();
@@ -21,6 +22,7 @@ function App() {
               <WalletDetails />
               <NetworkInfo />
               <AccountInfo />
+              <BetComponent />
               <TransferAPT />
               <MessageBoard />
             </CardContent>
